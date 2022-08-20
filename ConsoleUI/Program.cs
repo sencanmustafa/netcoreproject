@@ -8,34 +8,36 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //ProductTest();
+            ProductTest();
 
             //CategoryTest();
 
-            ProductManager product = new ProductManager(new EfProductDal());
-            foreach (var products in product.GetProductDetails())
-            {
-                Console.WriteLine (products.ProductName + "/" + products.CategoryName);
-            }
+            
             
         }
 
         private static void ProductTest()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            int cat_id = 4;
+            
             Console.WriteLine("Get All");
-            foreach (var product in productManager.GetAll())
+            var result = productManager.GetAll();
+            if (result.Success == true)
+            {
+                foreach (var product in result.Data)
+                {
+
+                    Console.WriteLine(product.ProductName);
+                    
+                   
+                }
+            }
+            else 
             {
 
-                Console.WriteLine(product.ProductName);
+                Console.WriteLine(result.Message);
             }
-            Console.WriteLine($"Get All by Category id => {cat_id} ");
-            foreach (var product in productManager.GetAllByCategoryId(cat_id))
-            {
-                Console.WriteLine(product.ProductId);
-                Console.WriteLine(product.ProductName);
-            }
+            
         }
 
         private static void CategoryTest()
